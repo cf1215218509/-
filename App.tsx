@@ -8,6 +8,7 @@ import CowardlyButton from './components/games/CowardlyButton';
 import InverseMaze from './components/games/InverseMaze';
 import ColorLiar from './components/games/ColorLiar';
 import TrollMath from './components/games/TrollMath';
+import GestureParticles from './components/GestureParticles';
 
 const GAMES: GameConfig[] = [
   {
@@ -58,6 +59,7 @@ const App: React.FC = () => {
   const [activeGame, setActiveGame] = useState<GameType>(GameType.NONE);
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [lastScore, setLastScore] = useState(0);
+  const [showParticles, setShowParticles] = useState(false);
 
   const handleSelectGame = (id: GameType) => {
     setActiveGame(id);
@@ -76,6 +78,10 @@ const App: React.FC = () => {
 
   const isGameActive = activeGame !== GameType.NONE;
 
+  if (showParticles) {
+    return <GestureParticles onBack={() => setShowParticles(false)} />;
+  }
+
   return (
     // Updated container layout: h-full with overflow-y-auto fixes mobile scrolling issues when body is overflow-hidden
     <div className={`w-full bg-dark-bg text-gray-100 selection:bg-neon-purple selection:text-white font-sans ${isGameActive ? 'h-[100dvh] overflow-hidden fixed inset-0' : 'h-full overflow-y-auto'}`}>
@@ -84,9 +90,22 @@ const App: React.FC = () => {
 
       <div className={`relative z-10 container mx-auto px-4 ${isGameActive ? 'h-full flex flex-col' : 'py-8'}`}>
         
+        {/* Top Right "Control Experience" Button (Only on Home) */}
+        {!isGameActive && (
+          <div className="absolute top-4 right-4 z-50">
+             <button 
+               onClick={() => setShowParticles(true)}
+               className="group flex items-center gap-2 px-4 py-2 bg-gray-800/80 hover:bg-neon-purple/20 border border-gray-600 hover:border-neon-purple text-gray-200 hover:text-white rounded-full transition-all duration-300 shadow-lg"
+             >
+               <i className="fas fa-hand-sparkles text-neon-purple group-hover:scale-110 transition-transform"></i>
+               <span className="font-bold text-sm">操控体验</span>
+             </button>
+          </div>
+        )}
+
         {/* Header - Only show when NOT playing to save space on mobile */}
         {!isGameActive && (
-          <header className="mb-12 text-center">
+          <header className="mb-12 text-center mt-12">
             <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple via-white to-neon-green animate-glitch inline-block">
                 达文西的
