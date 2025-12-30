@@ -1,15 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 import { GameType } from "../types";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+// Initialize GoogleGenAI once with the provided API key from process.env
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateTaunt = async (game: GameType, score: number): Promise<string> => {
-  if (!apiKey) {
-    return "达文西正在无视你（缺少 API Key）。";
-  }
-
-  const modelId = "gemini-2.5-flash";
+  // Use gemini-3-flash-preview for simple text tasks as per guidelines
+  const modelId = "gemini-3-flash-preview";
   
   let gameName = "";
   switch(game) {
@@ -19,6 +16,7 @@ export const generateTaunt = async (game: GameType, score: number): Promise<stri
     case GameType.INVERSE_MAZE: gameName = "反向迷宫"; break;
     case GameType.COLOR_LIAR: gameName = "色彩骗局"; break;
     case GameType.TROLL_MATH: gameName = "智障算术"; break;
+    case GameType.TROLL_PACHINKO: gameName = "智障弹珠"; break;
     default: gameName = "这个游戏";
   }
 
@@ -31,11 +29,13 @@ export const generateTaunt = async (game: GameType, score: number): Promise<stri
   `;
 
   try {
+    // Correct usage: call generateContent with model name and prompt directly
     const response = await ai.models.generateContent({
       model: modelId,
       contents: prompt,
     });
-    return response.text.trim();
+    // Use .text property to access generated content and handle potential undefined values
+    return response.text?.trim() || "甚至连我的AI都对你感到无语了。";
   } catch (error) {
     console.error("Error generating taunt:", error);
     return "甚至连我的AI都对你感到无语了。";

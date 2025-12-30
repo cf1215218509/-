@@ -1,3 +1,4 @@
+
 export enum GameStatus {
   IDLE = 'IDLE',
   PLAYING = 'PLAYING',
@@ -12,6 +13,7 @@ export enum GameType {
   INVERSE_MAZE = 'INVERSE_MAZE',
   COLOR_LIAR = 'COLOR_LIAR',
   TROLL_MATH = 'TROLL_MATH',
+  TROLL_PACHINKO = 'TROLL_PACHINKO',
   NONE = 'NONE'
 }
 

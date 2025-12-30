@@ -11,6 +11,7 @@ interface GameLayoutProps {
   lastScore: number;
 }
 
+// Fixed missing GameType.TROLL_PACHINKO in GAME_TITLES to satisfy Record<GameType, string> constraint
 const GAME_TITLES: Record<GameType, string> = {
   [GameType.REVERSE_TETRIS]: "反向俄罗斯方块",
   [GameType.ROTATED_SNAKE]: "旋转贪吃蛇",
@@ -18,6 +19,7 @@ const GAME_TITLES: Record<GameType, string> = {
   [GameType.INVERSE_MAZE]: "反向迷宫",
   [GameType.COLOR_LIAR]: "色彩骗局",
   [GameType.TROLL_MATH]: "智障算术",
+  [GameType.TROLL_PACHINKO]: "智障弹珠",
   [GameType.NONE]: ""
 };
 
